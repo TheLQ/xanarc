@@ -17,8 +17,7 @@ case $- in
       *) return;;
 esac
 
-echo "$PWD"
-for i in ./xanarc/src/*.sh; do
+for i in $HOME/xanarc/src/*.sh; do
   echo "import $i"
   . "$i"
 done
