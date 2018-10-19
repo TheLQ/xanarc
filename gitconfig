@@ -1,0 +1,5 @@
+# This is Git's per-user configuration file.
+[user]
+# Please adapt and uncomment the following lines:
+	name = Leon Blakey
+	email = leon.m.blakey@gmail.com

@@ -21,6 +21,8 @@ replace() {
 
 	do_overwrite="no"
 
+	echo "+ Link $1 to $2"
+
 	if [ -h "$file_home" -a "$( readlink "$file_home" )" == "$file_rc" ]; then
 		echo "bashrc link already set"
 	elif [ -f "$file_home" ]; then
@@ -35,4 +37,6 @@ replace() {
 }
 
 replace "bashrc.sh" ".bashrc"
+replace "gitconfig" ".gitconfig"
+
 echo "done"
