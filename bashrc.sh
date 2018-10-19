@@ -1,3 +1,5 @@
+#!/bin/bash
+
 # ~/.bashrc: executed by bash(1) for non-login shells.
 # see /usr/share/doc/bash/examples/startup-files (in the package bash-doc)
 # for examples
@@ -15,7 +17,7 @@ case $- in
       *) return;;
 esac
 
-echo $PWD
+echo "$PWD"
 for i in ./xanarc/src/*.sh; do
   echo "import $i"
   . "$i"
@@ -33,5 +35,5 @@ if ! shopt -oq posix; then
 fi
 [ -r /root/.byobu/prompt ] && . /root/.byobu/prompt   #byobu-prompt#
 
-set +euo pipefail
-IFS="$old_ifs"
+#set +euo pipefail
+#IFS="$old_ifs"
