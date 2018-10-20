@@ -12,10 +12,24 @@ alias l='ls -CF'
 alias journal24h='journalctl --since="24 hours ago"'
 
 relink() {
-	[ -n "$1" -a -h "$1" -a -n "$2" ] || { echo "relink <softLinkfile> <target>" && exit 1; }
+	if [ ! -n "$1" ] || [ ! -h "$1" ] || [ ! -n "$2" ]; then
+		echo "relink <softLinkfile> <target>"
+		return 1
+	fi
 	set -x
 	unlink "$1"
 	ln -s "$2" "$1"
+	set +x
+}
+
+cdtmp() {
+	if [ -e "$1" ]; then
+		echo "cdtmp <tmp that does not exist>"
+		return 1
+	fi
+	set -x
+	mkdir "/tmp/$1"
+	cd "/tmp/$1" || return
 	set +x
 }
 
@@ -61,7 +75,10 @@ lxcstopup() {
 }
 
 lxcrestartattach() {
-    [ "$1" == "" ] && echo "lxcRestartAttach <container>" && return 1
+    if [ ! -n "$1" == "" ]; then
+		echo "lxcRestartAttach <container>"
+		return 1
+	fi
     set -x
     lxc-stop -n "$1"
     lxc-start -n "$1"
@@ -70,14 +87,20 @@ lxcrestartattach() {
 }
 
 lxcedit() {
-    [ "$1" == "" ] && echo "lxcEdit <container>" && return 1
+    if [ ! -n "$1" ]; then
+		echo "lxcEdit <container>"
+		return 1
+	fi
     set -x
     nano "/var/lib/lxc/$1/config"
     set +x
 }
 
 lxcattach() {
-	[ "$1" == "" ] && echo "lxcAttach <container>" && return 1
+	if [ "$1" == "" ]; then
+		echo "lxcAttach <container>"
+		return 1
+	fi
 	set -x
 	lxc-attach -n "$1"
 	set +x
@@ -88,3 +111,16 @@ lxcls() {
 	set +x
 }
 
+##
+
+alias gc='git commit'
+gitaddcommit() {
+	if [ -e "$1" ]; then
+		echo "gitaddcommit <file>"
+		return 1
+	fi
+	set -x
+	git add "$1"
+	git commit
+	set +x
+}
