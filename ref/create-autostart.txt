@@ -1,0 +1,82 @@
+#!/bin/bash
+
+# Set these according to your needs
+SMB_SERVER_IP="pxesrv.quackluster.lan"
+SMB_WORKGROUP="pxesrv"
+SMB_USER="leon"
+SMB_PASSWORD="manganip"
+SMB_REMOTE_PATH="/tftpboot"
+SMB_LOCAL_MOUNT="/tftpboot"
+
+# Create autostart entry
+mkdir -p /etc/xdg/autostart
+{
+  echo "[Desktop Entry]"
+  echo "Version=1.0"
+  echo "Type=Application"
+  echo "Name=Autostart"
+  echo "Exec=/opt/autostart"
+  echo "Terminal=false"
+  echo "StartupNotify=false"
+} > /etc/xdg/autostart/autostart.desktop
+
+# Create autostart script
+{
+  echo "#!/bin/bash"
+  echo ""
+  echo "# Set user directory ownership"
+  echo "sudo chown -R user:user /home/user"
+  echo ""
+  echo "# Disable sleeps and suspensions"
+  echo "sudo systemctl mask sleep.target suspend.target hibernate.target hybrid-sleep.target"
+  echo ""
+  echo "# Mount network file system"
+  echo "sudo mkdir -p ${SMB_LOCAL_MOUNT}"
+  echo "echo \"//${SMB_SERVER_IP}${SMB_REMOTE_PATH} ${SMB_LOCAL_MOUNT} cifs rw,_netdev,credentials=/home/user/.smbcredentials,uid=1000,iocharset=utf8 0 0\" | sudo tee --append /etc/fstab"
+  echo "sudo mount -a"
+  echo ""
+  echo "# Keep alive network mount"
+  echo "(crontab -l; echo \"*/5 * * * * touch ${SMB_LOCAL_MOUNT}/.fskeepalive\") 2>/dev/null | crontab"
+} > /opt/autostart
+chmod +x /opt/autostart
+
+# Ignore laptop lid close
+{
+  echo "HandleLidSwitch=ignore"
+  echo "HandleLidSwitchDocked=ignore"
+} >> /etc/systemd/logind.conf
+
+# Disable light-locker
+echo "Hidden=true" >> /etc/xdg/autostart/light-locker.desktop
+
+# Configure SMB credentials
+{
+  echo "workgroup=${SMB_WORKGROUP}"
+  echo "username=${SMB_USER}"
+  echo "password=${SMB_PASSWORD}"
+} > /home/user/.smbcredentials
+chmod 600 ~/.smbcredentials
+
+# Configure Firefox
+{
+  echo "// Custom Firefox config"
+  echo "pref(\"general.config.filename\", \"mozilla.cfg\");"
+  echo "pref(\"general.config.obscure_value\", 0);"
+} > /usr/lib/firefox-esr/defaults/pref/autoconfig.js
+{
+  echo "// Custom Firefox config"
+  echo "lockPref(\"app.update.enabled\", false);"
+  echo "lockPref(\"app.update.auto\", false);"
+  echo "lockPref(\"app.update.mode\", 0);"
+  echo "lockPref(\"app.update.service.enabled\", false);"
+  echo "clearPref(\"extensions.lastAppVersion\");"
+  echo "pref(\"browser.rights.3.shown\", true);"
+  echo "pref(\"browser.startup.homepage_override.mstone\",\"ignore\");"
+  echo "defaultPref(\"browser.startup.homepage\",\"data:text/plain,browser.startup.homepage=https://www.google.com\");"
+  echo "lockPref(\"plugins.hide_infobar_for_outdated_plugin\", true);"
+  echo "clearPref(\"plugins.update.url\");"
+  echo "lockPref(\"datareporting.healthreport.service.enabled\", false);"
+  echo "lockPref(\"datareporting.policy.dataSubmissionEnabled\", false);"
+  echo "lockPref(\"toolkit.crashreporter.enabled\", false);"
+  echo "Components.classes[\"@mozilla.org/toolkit/crash-reporter;1\"].getService(Components.interfaces.nsICrashReporter).submitReports = false;"
+} > /usr/lib/firefox-esr/mozilla.cfg

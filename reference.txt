@@ -1,0 +1,5 @@
+# ncdu - look at one file system, save output to file
+ncdu -o out -x -0 /
+ncdu -f out
+
+rsync -avhPHAXx --exclude={"/dev/*","/proc/*","/sys/*","/tmp/*","/run/*","/mnt/*","/media/*","/lost+found"} / /big8/backup/core
