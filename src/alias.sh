@@ -67,7 +67,16 @@ dcrm() {
 
 ##
 
+alias lxcls="lxc-ls --fancy"
+alias lxcstart="lxc-start -n"
+alias lxcstop="lxc-stop -n"
+alias lxcls="lxc-ls -f"
+
 lxcstopup() {
+	if [ ! -n "$1" == "" ]; then
+		echo "lxcstopup <container>"
+		return 1
+	fi
 	set -x;
 	lxc-stop -n "$1"
 	lxc-start -n "$1"
@@ -76,7 +85,7 @@ lxcstopup() {
 
 lxcrestartattach() {
     if [ ! -n "$1" == "" ]; then
-		echo "lxcRestartAttach <container>"
+		echo "lxcrestartattach <container>"
 		return 1
 	fi
     set -x
@@ -88,7 +97,7 @@ lxcrestartattach() {
 
 lxcedit() {
     if [ ! -n "$1" ]; then
-		echo "lxcEdit <container>"
+		echo "lxcedit <container>"
 		return 1
 	fi
     set -x
@@ -98,23 +107,38 @@ lxcedit() {
 
 lxcattach() {
 	if [ "$1" == "" ]; then
-		echo "lxcAttach <container>"
+		echo "lxcattach <container>"
 		return 1
 	fi
 	set -x
 	lxc-attach -n "$1"
 	set +x
 }
-lxcls() {
+
+lxcsh() {
+	if [ "$1" == "" ]; then
+                echo "$0 <container>"
+                return 1
+        fi
 	set -x
-	lxc-ls -f
+	lxc-attach --clear-env -n "$1" /bin/bash
+	set +x
+}
+lxcshleon() {
+	if [ "$1" == "" ]; then
+                echo "$0 <container>"
+                return 1
+        fi
+	set -x
+	lxc-attach --clear-env -n "$1" --u 1000 --g 1000 /bin/bash
 	set +x
 }
 
 ##
 
 alias gc='git commit'
-gitaddcommit() {
+
+gac() {
 	if [ -e "$1" ]; then
 		echo "gitaddcommit <file>"
 		return 1
