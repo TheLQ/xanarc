@@ -42,7 +42,7 @@ reloadbashrc() {
 alias dc='docker-compose'
 alias dcup='docker-compose up -d'
 alias dcstop='docker-compose stop'
-alias dclogs='docker-compose logs'
+alias dclogs='docker-compose logs -f'
 alias dcbuild='docker-compose build'
 alias dcbuildpull='docker-compose build --pull'
 alias dps='docker ps | less -S'
