@@ -17,6 +17,7 @@ case $- in
       *) return;;
 esac
 
+xanarc_root="$HOME/xanarc"
 for i in $HOME/xanarc/src/*.sh; do
   echo "import $i"
   . "$i"
@@ -32,7 +33,23 @@ if ! shopt -oq posix; then
     . /etc/bash_completion
   fi
 fi
-[ -r /root/.byobu/prompt ] && . /root/.byobu/prompt   #byobu-prompt#
+#[ -r /root/.byobu/prompt ] && . /root/.byobu/prompt   #byobu-prompt#
 
 #set +euo pipefail
 #IFS="$old_ifs"
+
+#set -x
+[ -f /usr/bin/git ] && {
+	git_cmd=( "git" "-C" "$xanarc_root" )
+	[[ -z $( "${git_cmd[@]}" status -uno --porcelain) ]] || (
+		lastFile=$( "${git_cmd[@]}" status --porcelain | grep -E "[A-Z ]{2}" | cut -c4- | xargs printf -- "$xanarc_root/%s\n" | xargs ls -t | tail -n1 )
+		last_modified_sec=$(stat --format '%Y' "$lastFile")
+		now_sec=$(date +%s)
+		echo
+		#echo "$last_modified_sec - $now_sec = " $(( now_sec - last_modified_sec ))
+		total_hours=$(( ( now_sec - last_modified_sec ) / ( 60 * 60 ) ))
+		total_days=$(( ( now_sec - last_modified_sec ) / ( 60 * 60 * 24 ) ))
+		echo "need to commit xanarc changes, at least $total_hours hours or $total_days days old"
+	)
+} || true
+#set +x
