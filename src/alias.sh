@@ -148,3 +148,11 @@ gac() {
 	git commit
 	set +x
 }
+
+##
+
+alias iftop50='iftop -m 50m'
+alias iftop100='iftop -m 100m'
+alias iftop200='iftop -m 200m'
+
+alias iotop='iotop -o'
