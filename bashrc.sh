@@ -18,7 +18,7 @@ case $- in
 esac
 
 xanarc_root="$HOME/xanarc"
-for i in $HOME/xanarc/src/*.sh; do
+for i in "$HOME"/xanarc/src/*.sh; do
   echo "import $i"
   . "$i"
 done
@@ -39,7 +39,9 @@ fi
 #IFS="$old_ifs"
 
 #set -x
-[ -f /usr/bin/git ] && {
+if [ -f /usr/bin/git ]
+then
+	{
 	git_cmd=( "git" "-C" "$xanarc_root" )
 	[[ -z $( "${git_cmd[@]}" status -uno --porcelain) ]] || (
 		lastFile=$( "${git_cmd[@]}" status --porcelain | grep -E "[A-Z ]{2}" | cut -c4- | xargs printf -- "$xanarc_root/%s\n" | xargs ls -t | tail -n1 )
@@ -51,5 +53,7 @@ fi
 		total_days=$(( ( now_sec - last_modified_sec ) / ( 60 * 60 * 24 ) ))
 		echo "need to commit xanarc changes, at least $total_hours hours or $total_days days old"
 	)
-} || true
+}
+fi
+
 #set +x
