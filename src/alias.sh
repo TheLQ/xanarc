@@ -34,7 +34,7 @@ cdtmp() {
 }
 
 reloadbashrc() {
-    source $HOME/.bashrc
+    source "$HOME"/.bashrc
 }
 
 ##
@@ -73,7 +73,8 @@ alias lxcstop="lxc-stop -n"
 alias lxcls="lxc-ls -f"
 
 lxcstopup() {
-	if [ ! -n "$1" == "" ]; then
+	if [ -z "$1" ]
+	then
 		echo "lxcstopup <container>"
 		return 1
 	fi
@@ -84,7 +85,8 @@ lxcstopup() {
 }
 
 lxcrestartattach() {
-    if [ ! -n "$1" == "" ]; then
+    if [ -z "$1" ]
+	then
 		echo "lxcrestartattach <container>"
 		return 1
 	fi
@@ -96,7 +98,8 @@ lxcrestartattach() {
 }
 
 lxcedit() {
-    if [ ! -n "$1" ]; then
+    if [ -z "$1" ]
+	then
 		echo "lxcedit <container>"
 		return 1
 	fi
