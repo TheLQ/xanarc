@@ -19,4 +19,3 @@ shopt -s checkwinsize
 # match all files and zero or more directories and subdirectories.
 shopt -s globstar
 
-PROMPT_COMMAND="history -a; history -n; $PROMPT_COMMAND"
