@@ -31,16 +31,18 @@ __prompt_command() {
     local Green='\e[32m'
     local Blue='\e[34m'
 
-    # ${debian_chroot:+($debian_chroot)}
-    if [ "$color_prompt" = yes ]; then
-        PS1="${Green}\u${Clear}@${Magenta}\h${Clear}:${Blue}\w${Clear}\$ "
-    else
-        PS1='\u@\h:\w\$ '
-    fi
 
-    if [ "$curr_exit" != 0 ]; then
-        PS1="[${Red}$curr_exit${Clear}]$PS1"
-    fi
+
+    # ${debian_chroot:+($debian_chroot)}
+#    if [ "$color_prompt" = yes ]; then
+    PS1="\[${Green}\]\u\[${Clear}\]@\[${Magenta}\]\h\[${Clear}\]:\[${Blue}\]\w\[${Clear}\]\$ "
+#    else
+#        PS1='\u@\h:\w\$ '
+#    fi
+
+#    if [ "$curr_exit" != 0 ]; then
+#        PS1="\[${Red}\]$curr_exit\[${Clear}]\]$PS1"
+#    fi
 
     history -a
     history -n
