@@ -19,6 +19,9 @@ else
 	color_prompt=
 fi
 
+# Set terminal title
+echo -en "\033]0;$USER@$HOSTNAME\a"
+
 PROMPT_COMMAND=__prompt_command
 
 __prompt_command() {
