@@ -2,4 +2,11 @@
 ncdu -o out -x -0 /
 ncdu -f out
 
-rsync -avhPHAXx --exclude={"/dev/*","/proc/*","/sys/*","/tmp/*","/run/*","/mnt/*","/media/*","/lost+found"} / /big8/backup/core
+rsync -avhPHAXx --exclude={"/dev/*","/proc/*","/sys/*","/tmp/*","/run/*","/mnt/*","/media/*","/lost+found"} / /big8/backup/core 
+
+zpool set ashift=12 <drive>
+
+zfs set compression=LZ4 q <drive>
+
+# http://open-zfs.org/wiki/Performance_tuning#Bit_Torrent
+zfs set recordsize=16kb big8/torrents
