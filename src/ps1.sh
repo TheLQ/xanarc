@@ -29,14 +29,12 @@ __prompt_command() {
 
     # next time: Wrap all of these in \[ ... \]
     local Clear='\e[0m'
-    local Red='\e[91m'
-    local Magenta='\e[35m'
+    local Red='\e[31m'
     local Green='\e[32m'
-    local Blue='\e[34m'
 
     # ${debian_chroot:+($debian_chroot)}
    if [ "$color_prompt" = yes ]; then
-       PS1="\[${Green}\]\u\[${Clear}\]@\[${Magenta}\]\h\[${Clear}\]:\[${Blue}\]\w\[${Clear}\]\$ "
+       PS1="\[${Green}\]\u\[${Clear}\]@\[${__prompt_host_color}\]\h\[${Clear}\]:\[${Blue}\]\w\[${Clear}\]\$ "
    else
        PS1='\u@\h:\w\$ '
    fi
