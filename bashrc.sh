@@ -37,6 +37,10 @@ fi
 # byobu-prompt - needed otherwise junk gets written to the first new shell
 [ -r /root/.byobu/prompt ] && . /root/.byobu/prompt   #byobu-prompt#
 
+# Set language for commands to UTF-8 instead of ASCII. Needed to render filenames with foreign characters
+# For some reason we didn't need this before... update-locales, set default to none, etc didn't work
+export LANG=en_US.UTF-8
+
 # alert if we need to commit xanarc
 if [ -f /usr/bin/git ]
 then
