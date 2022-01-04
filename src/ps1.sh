@@ -33,6 +33,7 @@ __prompt_command() {
     local Clear='\e[0m'
     local Red='\e[31m'
     local Green='\e[32m'
+    local Blue='\e[34m'
 
     # ${debian_chroot:+($debian_chroot)}
    if [ "$color_prompt" = yes ]; then

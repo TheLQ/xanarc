@@ -37,7 +37,7 @@ fi
 # byobu-prompt - needed otherwise junk gets written to the first new shell
 [ -r /root/.byobu/prompt ] && . /root/.byobu/prompt   #byobu-prompt#
 
-#set -x
+# alert if we need to commit xanarc
 if [ -f /usr/bin/git ]
 then
 	{
@@ -54,5 +54,3 @@ then
 	)
 }
 fi
-
-#set +x
