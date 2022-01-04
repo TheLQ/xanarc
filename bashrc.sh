@@ -33,10 +33,9 @@ if ! shopt -oq posix; then
     . /etc/bash_completion
   fi
 fi
-#[ -r /root/.byobu/prompt ] && . /root/.byobu/prompt   #byobu-prompt#
 
-#set +euo pipefail
-#IFS="$old_ifs"
+# byobu-prompt - needed otherwise junk gets written to the first new shell
+[ -r /root/.byobu/prompt ] && . /root/.byobu/prompt   #byobu-prompt#
 
 #set -x
 if [ -f /usr/bin/git ]
