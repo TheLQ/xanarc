@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 # See /usr/share/doc/bash-doc/examples in the bash-doc package.
 
@@ -12,7 +12,7 @@ alias l='ls -CF'
 alias journal24h='journalctl --since="24 hours ago"'
 
 relink() {
-	if [ ! -n "$1" ] || [ ! -h "$1" ] || [ ! -n "$2" ]; then
+	if [ -z "$1" ] || [ ! -h "$1" ] || [ -z "$2" ]; then
 		echo "relink <softLinkfile> <target>"
 		return 1
 	fi
