@@ -19,11 +19,13 @@ else
 	color_prompt=
 fi
 
-# Set terminal title
-echo -en "\033]0;$USER@$HOSTNAME\a"
+function __prompt_title() {
+    # Set terminal title
+    echo -en "\033]0;$USER@$HOSTNAME\a"
+}
+__prompt_title
 
 PROMPT_COMMAND=__prompt_command
-
 __prompt_command() {
     local curr_exit="$?"
 
@@ -47,4 +49,7 @@ __prompt_command() {
     history -a
     # append missing .bash_history entries into current session
     history -n
+
+    # if a child chroot/lxc exits, reset the terminal title
+    __prompt_title
 }
