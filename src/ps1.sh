@@ -21,26 +21,53 @@ fi
 
 function __prompt_title() {
     # Set terminal title
-    echo -en "\033]0;$USER@$HOSTNAME\a"
+    echo -en "\e]0;$USER@$HOSTNAME"
 }
-__prompt_title
 
 PROMPT_COMMAND=__prompt_command
 __prompt_command() {
     local curr_exit="$?"
 
     # next time: Wrap all of these in \[ ... \]
-    local Clear='\e[0m'
-    local Red='\e[31m'
-    local Green='\e[32m'
-    local Blue='\e[34m'
+    local red='\e[31m'
+    local green='\e[32m'
+    local blue='\e[34m'
+
+    local clear='\e[0m'
+    local start='\['
+    local end='\]'
+
+    case $USER in
+      root)
+         __prompt_user_color='\e[48;5;13m'
+         ;;
+      *)
+         __prompt_user_color='\e[38;5;10m'
+         ;;
+    esac
+    local __prompt_user="${start}${__prompt_user_color}${end}\u${start}${clear}${end}"
+
+    case $HOSTNAME in
+        lyoko)
+          __prompt_host_color='\e[31m'
+          __prompt_host_text='╡█\h█╞'
+          ;;
+        *)
+          __prompt_host_color='\e[32m'
+          __prompt_host_text='\h'
+          ;;
+    esac
+    local __prompt_host="${start}${__prompt_host_color}${end}${__prompt_host_text}${start}${clear}${end}"
+
+    local __prompt_dir="${start}${blue}${end}\w${start}${clear}${end}"
+    
 
     # ${debian_chroot:+($debian_chroot)}
-   if [ "$color_prompt" = yes ]; then
-       PS1="\[${Green}\]\u\[${Clear}\]@\[${__prompt_host_color}\]\h\[${Clear}\]:\[${Blue}\]\w\[${Clear}\]\$ "
-   else
-       PS1='\u@\h:\w\$ '
-   fi
+#   if [ "$color_prompt" = yes ]; then
+       PS1="${__prompt_user}@${__prompt_host}:${__prompt_dir}\$ "
+#   else
+#       PS1='\u@\h:\w\$ '
+#   fi
 
    if [ "$curr_exit" != 0 ]; then
        PS1="\[${Red}\]$curr_exit\[${Clear}\] $PS1"

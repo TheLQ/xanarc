@@ -17,8 +17,8 @@ case $- in
       *) return;;
 esac
 
-xanarc_root="$HOME/xanarc"
-for i in "$HOME"/xanarc/src/*.sh; do
+xanarc_root="/holo/xanarc"
+for i in $xanarc_root/src/*.sh; do
   echo "import $i"
   . "$i"
 done
@@ -42,8 +42,7 @@ fi
 export LANG=en_US.UTF-8
 
 # alert if we need to commit xanarc
-if [ -f /usr/bin/git ]
-then
+if [ -f /usr/bin/git ] && [ "$USER" = "root" ]; then
 	{
 	git_cmd=( "git" "-C" "$xanarc_root" )
 	[[ -z $( "${git_cmd[@]}" status -uno --porcelain) ]] || (
