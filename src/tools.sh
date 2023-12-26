@@ -1,6 +1,7 @@
 #!/bin/bash
 
 export PATH="$PATH:/mnt/bin/linux/bin"
+export PATH="$PATH:/holo/AMDuProf_4.1-424/bin/"
 
 # contains non-trivial, complex functions
 
