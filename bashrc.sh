@@ -44,7 +44,7 @@ export LANG=en_US.UTF-8
 # alert if we need to commit xanarc
 if [ -f /usr/bin/git ] && [ "$USER" = "root" ]; then
 	{
-	git_cmd=( "git" "-C" "$xanarc_root" )
+	git_cmd=( "git" "-C" "$xanarc_root" "-c" "safe.directory=$xanarc_root" )
 	[[ -z $( "${git_cmd[@]}" status -uno --porcelain) ]] || (
 		lastFile=$( "${git_cmd[@]}" status --porcelain | grep -E "[A-Z ]{2}" | cut -c4- | xargs printf -- "$xanarc_root/%s\n" | xargs ls -t | tail -n1 )
 		last_modified_sec=$(stat --format '%Y' "$lastFile")
