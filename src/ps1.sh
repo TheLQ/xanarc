@@ -79,5 +79,5 @@ __prompt_command() {
     history -n
 
     # if a child chroot/lxc exits, reset the terminal title
-#    __prompt_title
+   __prompt_title
 }

@@ -12,13 +12,15 @@
 # export PATH="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
 
 # If not running interactively, don't do anything
-case $- in
-    *i*) ;;
-      *) return;;
-esac
+[ -z "$PS1" ] && return
 
 # byobu-prompt - needed otherwise junk gets written to the first new shell
-[ -r /root/.byobu/prompt ] && . /root/.byobu/prompt   #byobu-prompt#
+[ -r $HOME/.byobu/prompt ] && . $HOME/.byobu/prompt   #byobu-prompt#
+
+# init bash_aliases
+if [ -f ~/.bash_aliases ]; then
+    . ~/.bash_aliases
+fi
 
 xanarc_root="/holo/xanarc"
 for i in $xanarc_root/src/*.sh; do
