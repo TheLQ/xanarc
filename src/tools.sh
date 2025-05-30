@@ -1,36 +1,4 @@
-#!/bin/bash
-
-__export_path() {
-  if [ -z "$1" ]; then 
-    echo "no path";
-    return
-  fi
-
-  if ! [ -d "$1" ]; then
-    # missing, do nothing
-    return
-  fi
-
-  case ":${PATH}:" in
-    *:"$1":*)
-        echo "already supports $1"
-        ;;
-    *)
-        echo "supports $1"
-        export PATH="$PATH:$1"
-        ;;
-  esac
-}
-
-# tmsu?
-# export PATH="$PATH:/mnt/bin/linux/bin"
-
-__export_path "/opt/AMDuProf_5.0-1479/bin/"
-
-if [ -f "$HOME/.cargo/env" ]; then
-  echo "adding cargo"
-  . "$HOME/.cargo/env"
-fi
+#!/bin/sh
 
 # contains non-trivial, complex functions
 
