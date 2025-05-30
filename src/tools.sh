@@ -3,7 +3,12 @@
 __export_path() {
   if [ -z "$1" ]; then 
     echo "no path";
-    return;
+    return
+  fi
+
+  if ! [ -d "$1" ]; then
+    # missing, do nothing
+    return
   fi
 
   case ":${PATH}:" in
