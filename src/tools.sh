@@ -1,7 +1,31 @@
 #!/bin/bash
 
-export PATH="$PATH:/mnt/bin/linux/bin"
-export PATH="$PATH:/holo/AMDuProf_4.1-424/bin/"
+__export_path() {
+  if [ -z "$1" ]; then 
+    echo "no path";
+    return;
+  fi
+
+  case ":${PATH}:" in
+    *:"$1":*)
+        echo "already supports $1"
+        ;;
+    *)
+        echo "supports $1"
+        export PATH="$PATH:$1"
+        ;;
+  esac
+}
+
+# tmsu?
+# export PATH="$PATH:/mnt/bin/linux/bin"
+
+__export_path "/opt/AMDuProf_5.0-1479/bin/"
+
+if [ -f "$HOME/.cargo/env" ]; then
+  echo "adding cargo"
+  . "$HOME/.cargo/env"
+fi
 
 # contains non-trivial, complex functions
 
