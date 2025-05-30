@@ -17,6 +17,9 @@ case $- in
       *) return;;
 esac
 
+# byobu-prompt - needed otherwise junk gets written to the first new shell
+[ -r /root/.byobu/prompt ] && . /root/.byobu/prompt   #byobu-prompt#
+
 xanarc_root="/holo/xanarc"
 for i in $xanarc_root/src/*.sh; do
   echo "import $i"
@@ -33,9 +36,6 @@ if ! shopt -oq posix; then
     . /etc/bash_completion
   fi
 fi
-
-# byobu-prompt - needed otherwise junk gets written to the first new shell
-[ -r /root/.byobu/prompt ] && . /root/.byobu/prompt   #byobu-prompt#
 
 # Set language for commands to UTF-8 instead of ASCII. Needed to render filenames with foreign characters
 # For some reason we didn't need this before... update-locales, set default to none, etc didn't work
