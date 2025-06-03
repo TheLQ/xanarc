@@ -34,6 +34,11 @@ __prompt_command() {
     local blue='\e[96m'
 
     local clear='\e[0m'
+
+    # \[
+    #     begin a sequence of non-printing characters, which could be used to embed a terminal control sequence into the prompt
+    # \]
+    #     end a sequence of non-printing characters
     local start='\['
     local end='\]'
 
