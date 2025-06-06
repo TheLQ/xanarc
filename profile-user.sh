@@ -8,6 +8,8 @@
 # for ssh logins, install and configure the libpam-umask package.
 #umask 022
 
+return
+
 # if running bash
 if [ -n "$BASH_VERSION" ]; then
     # include .bashrc if it exists
@@ -27,5 +29,5 @@ if [ -d "$HOME/.local/bin" ] ; then
 fi
 
 export __xana_silent=1
-# . /holo/xanarc/src/mypath.sh
+. /holo/xanarc/src/mypath.sh
 unset __xana_silent
